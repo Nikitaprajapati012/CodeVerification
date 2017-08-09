@@ -5,4 +5,7 @@
     <string name="sucess">\"Sucessfull !!!\"</string>
     <string name="error">\"Opss Enter Valid Number!!!\"</string>
     <string name="timeout">Time Out!!,Please Try Again</string>
+    <string name="numeric">Numeric</string>
+    <string name="alphabetic">Alphabetic</string>
+    <string name="alphanumeric">Alpha Numeric</string>
 </resources>
