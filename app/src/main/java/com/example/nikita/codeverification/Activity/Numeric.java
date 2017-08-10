@@ -1,5 +1,6 @@
 package com.example.nikita.codeverification.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -59,10 +60,12 @@ public class Numeric extends AppCompatActivity implements View.OnClickListener {
         int levelScore = 10;
         String totalTime = Utils.ReadSharedPreference(this, Constants.TOTAL_TIME);
         String scoreTime = Utils.ReadSharedPreference(this, Constants.REMAIN_TIME);
-        wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
-//        int score = Math.max(0, wonTime) * levelScore;
-        txtHighScore.setText("Win Timing : " + wonTime);
-        edEnterCode.setText("");
+        if (!scoreTime.equalsIgnoreCase(" ")){
+            wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
+//            int score = Math.max(0, wonTime) * levelScore;
+            txtHighScore.setText("Win Timing : " + wonTime);
+            edEnterCode.setText("");
+        }
     }
 
     protected String getSaltString() {
@@ -173,8 +176,11 @@ public class Numeric extends AppCompatActivity implements View.OnClickListener {
                         setTimer();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        if(!(Numeric.this).isFinishing())
+        {
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     @Override

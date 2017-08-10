@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +19,6 @@ import com.example.nikita.codeverification.Utils.Constants;
 import com.example.nikita.codeverification.Utils.Utils;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,10 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int levelScore = 10;
         String totalTime = Utils.ReadSharedPreference(this, Constants.TOTAL_TIME);
         String scoreTime = Utils.ReadSharedPreference(this, Constants.REMAIN_TIME);
-        wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
+        if (!scoreTime.equalsIgnoreCase(" ")) {
+            wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
 //        int score = Math.max(0, wonTime) * levelScore;
         txtHighScore.setText("Win Timing : " + wonTime);
         edEnterCode.setText("");
+        }
     }
 
     public String getSaltString() {
@@ -150,9 +148,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int arg1) {
                     }
                 });
-        final AlertDialog alert = builder.create();
-        alert.show();
-
+        if (!(MainActivity.this).isFinishing()) {
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     private void showLoseAlert() {
@@ -176,8 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         setTimer();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        if (!(MainActivity.this).isFinishing()) {
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     @Override

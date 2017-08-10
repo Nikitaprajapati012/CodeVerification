@@ -1,8 +1,12 @@
 package com.example.nikita.codeverification.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.example.nikita.codeverification.R;
 
 import static com.example.nikita.codeverification.Utils.Constants.MyPREFERENCES;
 
@@ -12,6 +16,35 @@ import static com.example.nikita.codeverification.Utils.Constants.MyPREFERENCES;
 public class Utils {
     public Context mContext;
     public SharedPreferences mPreference;
+    private static int sTheme;
+    public final static int THEME_BLUE = 1;
+    public final static int THEME_RED = 2;
+    public final static int THEME_PINK = 3;
+    public final static int THEME_DEFAULT = 4;
+
+    public static void changeToTheme(Activity activity, int theme) {
+        sTheme = theme;
+        activity.finish();
+        activity.startActivity(new Intent(activity, activity.getClass()));
+    }
+
+    public static void onActivityCreateSetTheme(Activity activity) {
+        switch (sTheme) {
+            default:
+            case THEME_DEFAULT:
+                activity.setTheme(R.style.NormalTheme);
+                break;
+            case THEME_BLUE:
+                activity.setTheme(R.style.BlueTheme);
+                break;
+            case THEME_RED:
+                activity.setTheme(R.style.RedTheme);
+                break;
+            case THEME_PINK:
+                activity.setTheme(R.style.PinkTheme);
+                break;
+        }
+    }
 
     public Utils(Context mContext) {
         this.mContext = mContext;

@@ -9,6 +9,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +47,6 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
     public String remainTime;
     public int wonTime = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +63,12 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
         int levelScore = 10;
         String totalTime = Utils.ReadSharedPreference(this, Constants.TOTAL_TIME);
         String scoreTime = Utils.ReadSharedPreference(this, Constants.REMAIN_TIME);
-        wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
+        if (!scoreTime.equalsIgnoreCase(" ")) {
+            wonTime = Integer.parseInt(totalTime) - (Integer.parseInt(scoreTime));
 //        int score = Math.max(0, wonTime) * levelScore;
-        txtHighScore.setText("Win Timing : " + wonTime);
-        edEnterCode.setText("");
+            txtHighScore.setText("Win Timing : " + wonTime);
+            edEnterCode.setText("");
+        }
     }
 
     public String getSaltString() {
@@ -120,7 +123,7 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
     private void showWinAlert() {
         timer.cancel();
         getScore();
-        final String highScore = Utils.ReadSharedPreference(Alpha.this,Constants.HIGH_SCORE);
+        final String highScore = Utils.ReadSharedPreference(Alpha.this, Constants.HIGH_SCORE);
         edEnterCode.setVisibility(View.GONE);
         btnSubmit.setVisibility(View.GONE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -140,7 +143,7 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "My Score is : " +highScore);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "My Score is : " + highScore);
                         sendIntent.setType("text/plain");
                         startActivity(Intent.createChooser(sendIntent, "Share Via"));
                     }
@@ -150,8 +153,11 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int arg1) {
                     }
                 });
-        final AlertDialog alert = builder.create();
-        alert.show();
+        if(!(Alpha.this).isFinishing())
+        {
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
 
     }
 
@@ -176,8 +182,11 @@ public class Alpha extends AppCompatActivity implements View.OnClickListener {
                         setTimer();
                     }
                 });
-        AlertDialog alert = builder.create();
-        alert.show();
+        if(!(Alpha.this).isFinishing())
+        {
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     @Override
