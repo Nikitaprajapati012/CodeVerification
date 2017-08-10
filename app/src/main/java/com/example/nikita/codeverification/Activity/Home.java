@@ -56,6 +56,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         return false;
     }
 
+    // TODO: 10/8/17 theme change 
     private void changeNormalTheme() {
         Utils.changeToTheme(this, Utils.THEME_DEFAULT);
     }
